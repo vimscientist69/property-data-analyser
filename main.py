@@ -1,5 +1,6 @@
 from typing import List, Dict
 import json
+from analysis import calculate_average_price, find_most_expensive_property, find_cheapest_property, find_properties_per_location, calculate_average_price_per_location, filter_properties_by_minimum_price
 
 def main():
     properties = [
@@ -20,56 +21,7 @@ def main():
     minimum_price = 1000000
     filter_by_minimum_price = filter_properties_by_minimum_price(minimum_price, properties)
 
-    return
+    return { "avg_price": average_price, "most_expensive": most_expensive, "cheapest": cheapest, "properties_per_location": find_properties_per_location, "average_price_per_location": average_price_per_location, "filter_by_minimum_price": filter_properties_by_minimum_price }
 
-def filter_properties_by_minimum_price(minimum_price: int, properties: List[Dict[str: str]]):
-    return list(filter(lambda x: x["price"] >= minimum_price, properties))
-
-def calculate_average_price(prices: List[int]):
-    return sum(prices) / len(prices)
-
-
-def calculate_average_price_per_location(properties: List[Dict[str: str]]):
-    properties_prices_grouped_by_location : Dict[str: List[int]] = {}
-    for property in properties:
-        location = property["location"]
-        if location not in properties_prices_grouped_by_location:
-            properties_prices_grouped_by_location[location] = [property["price"]]
-        else:
-            properties_prices_grouped_by_location[location].append(property["price"])
-
-    average_prices = {}
-    for key in properties_prices_grouped_by_location.keys():
-        average_prices[key] = calculate_average_price(properties_prices_grouped_by_location[key])
-    return average_prices
-
-def find_properties_per_location(properties: List[Dict[str: str]]):
-    location_map = {}
-    for property in properties:
-        location = property["location"]
-        if location not in location_map:
-            location_map[location] = 1
-        else:
-            location_map[location] = location_map[location] + 1
-
-    return location_map
-
-def find_cheapest_property(properties: List[Dict[str: str]]):
-    cheapest = {"price": 0}
-
-    for property in properties:
-        if property["price"] < cheapest["price"]:
-            cheapest = property
-
-    return cheapest
-
-def find_most_expensive_property(properties: List[Dict[str: str]]):
-    most_expensive = {"price": 0}
-
-    for property in properties:
-        if property["price"] > most_expensive["price"]:
-            most_expensive = property
-
-    return most_expensive
-
-main()
+if __name__ == "__main__":
+    result = main()
