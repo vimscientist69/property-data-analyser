@@ -54,7 +54,7 @@ def find_properties_per_location(properties: List[Dict[str: str]]):
     return location_map
 
 def find_cheapest_property(properties: List[Dict[str: str]]):
-    cheapest = {"price": 0}
+    cheapest = properties[0] if len(properties) > 0 else {"price": 0}
 
     for property in properties:
         if property["price"] < cheapest["price"]:
@@ -63,7 +63,7 @@ def find_cheapest_property(properties: List[Dict[str: str]]):
     return cheapest
 
 def find_most_expensive_property(properties: List[Dict[str: str]]):
-    most_expensive = {"price": 0}
+    most_expensive = properties[0] if len(properties) > 0 else {"price": 0}
 
     for property in properties:
         if property["price"] > most_expensive["price"]:
